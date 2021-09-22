@@ -1,0 +1,77 @@
+{% load crispy_forms_tags %}
+{% load static %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href= "{% static "static_to_do_list/css/style.css" %}" rel="stylesheet" type="text/css" media="all"/>
+
+  </head>
+  <body class="container-fluid"
+  style=" background-image: url({% static 'static_to_do_list/images/office_background.jpg' %});">
+    {% if messages %}
+      {% for message in messages %}
+          <div class="alert alert-danger">
+              <strong>{{message}}</strong>
+          </div>
+      {% endfor %}
+    {% endif %}
+
+    <center class="row jumbotron "
+    style="background-image:url({% static 'static_to_do_list/images/note_bg.jpg' %})";>
+        <div class=" clear_div">
+
+        </div>
+        <div class="todo_title"><b class=" text_success_main" >
+          <a class="text-success " href="/"> TODO LIST </a>
+         </b>
+       </div>
+    </center>
+
+      <div class="row col-12 ">
+          <div class="card_parent col-sm-8">
+              {% for i in list  %}
+                <div class="card">
+                    <center> <b class="card_title text-success">{{i.title}}</b></center>
+                    <hr/>
+                    {{i.date}}
+                    <br/>
+                    {{i.details}}
+                    </br>
+                    <form class="" action="todo/del/{{i.id}}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="remove_icon">
+                          <i class="glyphicon glyphicon-trash"></i> &nbsp; remove
+                        </button>
+                    </form>
+                  </div>
+              {% endfor %}
+            </div>
+
+          <!-- Input form -->
+
+          <div class="col-sm-3">
+            <div class="submit_form">
+              <form class="" method="post">
+                {% csrf_token %}
+                {{ form_|crispy }}
+                <div class="" style="height:10px;">
+
+                </div>
+                <span class="submit_form_btn">
+                    <input class="btn_submit" type="submit" name="" value="submit">
+                </span>
+              </form>
+            </div>
+          </div>
+
+      </div>
+  </body>
+
+</html>
